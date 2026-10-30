@@ -25,10 +25,10 @@
   --shadow:0 1px 2px rgba(22,26,24,.07), 0 10px 30px -14px rgba(22,26,24,.28);
   --ink-on-accent:#FBFCF9;
   /* board object — deliberately constant across themes */
-  --board-hi:#39433F; --board-lo:#141B19; --board-edge:#09100E;
+  --board-hi:#55605B; --board-lo:#273130; --board-edge:#0B1211;
   --well:#0E1412; --well-rim:rgba(255,255,255,.055);
   --brass:#9C7F46; --brass-dim:rgba(156,127,70,.42);
-  --stone-a1:#8E9A96; --stone-a2:#2D3634; --stone-a3:#070A09;
+  --stone-a1:#93A19C; --stone-a2:#2A3432; --stone-a3:#050908;
   --stone-b1:#FFFFFC; --stone-b2:#E6E2D5; --stone-b3:#A9A496;
   --fnt-d:'Cinzel',Georgia,'Times New Roman',serif;
   --fnt-b:'Karla','Helvetica Neue',Arial,sans-serif;
@@ -123,9 +123,9 @@ h1,h2,h3{margin:0;font-family:var(--fnt-d);font-weight:600;text-wrap:balance}
 .cellLayer{position:absolute;inset:0}
 .slot,.stone,.arrow{position:absolute;transform:translate(-50%,-50%)}
 .slot{
-  width:calc(var(--d)*.9);aspect-ratio:1;border-radius:50%;
-  background:radial-gradient(circle at 50% 38%,#000 0%,var(--well) 72%);
-  box-shadow:inset 0 2px 3px rgba(0,0,0,.85),inset 0 -1px 0 var(--well-rim),0 1px 0 rgba(255,255,255,.045);
+  width:calc(var(--d)*.78);aspect-ratio:1;border-radius:50%;
+  background:radial-gradient(circle at 50% 32%,#0D1413 0%,#1B2321 80%);
+  box-shadow:inset 0 2px 3px rgba(0,0,0,.7),inset 0 -1.5px 1px var(--well-rim),0 1px 1px rgba(255,255,255,.05);
 }
 .slot .dot{position:absolute;inset:0;border-radius:50%;opacity:0;transition:opacity .16s}
 .slot.dest .dot{opacity:1;background:radial-gradient(circle,var(--accent) 0 22%,transparent 24%)}
@@ -1164,9 +1164,9 @@ el.board.addEventListener('pointerdown',ev=>{
   if(G.over||G.busy||!isHuman(G.turn)||m.color!==G.turn||m.captured) return;
   trySelect(m.cell);
   drag={x:ev.clientX,y:ev.clientY,moved:false,dir:-1,cell:m.cell};
-  el.board.setPointerCapture&&el.board.setPointerCapture(ev.pointerId);
 });
-el.board.addEventListener('pointermove',ev=>{
+// tracked on the window so a drag that leaves the board still ends cleanly
+addEventListener('pointermove',ev=>{
   if(!drag) return;
   const dx=ev.clientX-drag.x, dy=ev.clientY-drag.y;
   if(Math.hypot(dx,dy)<13) return;
@@ -1193,8 +1193,8 @@ function endDrag(){
     if(mv) play(mv.m); else sfx('tick');
   }
 }
-el.board.addEventListener('pointerup',endDrag);
-el.board.addEventListener('pointercancel',()=>{drag=null;});
+addEventListener('pointerup',endDrag);
+addEventListener('pointercancel',()=>{drag=null;});
 el.board.addEventListener('click',ev=>{
   if(drag&&drag.moved) return;
   const slot=ev.target.closest('.slot');
