@@ -1,0 +1,16 @@
+{
+  "name": "abalone",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Abalone — two players or against a searching computer opponent, in one self-contained page.",
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs",
+    "test": "node --test test/rules.test.mjs",
+    "selfplay": "node test/selfplay.mjs 4",
+    "start": "node build.mjs && node serve.mjs",
+    "serve": "node serve.mjs"
+  },
+  "engines": { "node": ">=18" },
+  "license": "MIT"
+}
